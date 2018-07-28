@@ -189,3 +189,28 @@ function testSocketUse() {
         });
     });
 }
+
+function testDynamicNamespace() {
+    let io = socketIO.listen(80);
+    let chat = io
+        .of(/^\/chat-\d+$/)
+        .on('connection', function (socket) {
+            socket.emit('a message', {
+                that: 'only'
+                , '/chat-01': 'will get'
+            });
+        });
+    
+    const nameOfNamesapce = '/news-01';
+
+    let news = io
+        .of((name, query, next) => {
+            next(null, name === nameOfNamesapce);
+          })
+        .on('connection', function (socket) {
+            socket.emit('a message', {
+                that: 'only'
+                , '/news-01': 'will get'
+            });
+        });
+}

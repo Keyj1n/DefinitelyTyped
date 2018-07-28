@@ -188,7 +188,7 @@ declare namespace SocketIO {
 		 * with a '/'
 		 * @return The Namespace
 		 */
-		of( nsp: string ): Namespace;
+		of( nsp: string | RegExp | ((name: string, query: any, next: (err: any, valid: boolean) => void) => void) ): Namespace;
 
 		/**
 		 * Closes the server connection
